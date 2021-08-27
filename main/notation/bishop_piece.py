@@ -5,7 +5,7 @@ Created on 27 Aug 2021
 '''
 from main.notation.pieces import Pieces
 
-class PKing(Pieces):
+class PBishop(Pieces):
     '''
     classdocs
     '''
@@ -14,14 +14,13 @@ class PKing(Pieces):
     def __init__(self):
         super().__init__()
         
-        print("[PKing] Constructor")
-        self.type = "king"
-        self.location = '1e0'
+        print("[PBishop] Constructor")
+        self.type = "bishop"
                 
         return 
     
     @classmethod
     def _pieces_type(self):
-        return "king"
+        return "bishop"
     
     
