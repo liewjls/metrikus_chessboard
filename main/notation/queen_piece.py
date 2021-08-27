@@ -16,8 +16,7 @@ class PQueen(Pieces):
         
         print("[PQueen] Constructor")
         self.type = "queen"
-        self.location = '1e0'
-                
+               
         return 
     
     @classmethod

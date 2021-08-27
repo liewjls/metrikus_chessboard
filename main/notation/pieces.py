@@ -26,9 +26,16 @@ class Pieces(object):
         '''
         self.type = None 
         self.location = None 
-        self.status = None 
-        print("Default Pieces Constructor")
+        self.line = None 
         
         return 
+    
+    def set_current_location(self, line, position):
+        self.line = line
+        self.location = position
+        
+        return 
+    
+    
     
     

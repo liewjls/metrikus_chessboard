@@ -16,8 +16,7 @@ class PKing(Pieces):
         
         print("[PKing] Constructor")
         self.type = "king"
-        self.location = '1e0'
-                
+        
         return 
     
     @classmethod

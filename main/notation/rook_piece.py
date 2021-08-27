@@ -16,8 +16,7 @@ class PRook(Pieces):
         
         print("[PRook] Constructor")
         self.type = "rook"
-        self.location = '1e0'
-                
+              
         return 
     
     @classmethod

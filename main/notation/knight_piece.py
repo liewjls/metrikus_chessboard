@@ -16,7 +16,6 @@ class PKnight(Pieces):
         
         print("[PKnight] Constructor")
         self.type = "knight"
-        self.location = '1e0'
                 
         return 
     

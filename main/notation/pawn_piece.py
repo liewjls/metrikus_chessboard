@@ -16,8 +16,7 @@ class PPawn(Pieces):
         
         print("[PPawn] Constructor")
         self.type = "pawn"
-        self.location = '1e0'
-                
+         
         return 
     
     @classmethod
