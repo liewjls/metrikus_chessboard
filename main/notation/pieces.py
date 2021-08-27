@@ -36,6 +36,14 @@ class Pieces(object):
         
         return 
     
+    def get_current_position(self):
+        
+        current_position = "{}x{}".format(self.line, self.location)
+        
+        return current_position
+    
+    
+    
     
     
     

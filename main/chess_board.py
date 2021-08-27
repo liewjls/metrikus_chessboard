@@ -83,11 +83,24 @@ class ChessBoard(object):
                 
                 pieces_handler.append(current_pieces_obj)
         
-        self.chess_storage[self.player_id_0] = {}
-        self.chess_storage[self.player_id_0]['pieces'] = pieces_handler
+        self.chess_storage[player_id] = {}
+        self.chess_storage[player_id]['pieces'] = pieces_handler
         
         print("Total pieces_handler size:{}".format(len(pieces_handler))) 
         
+        return 
+    
+    def print_pieces_position(self):
+        
+        for player in self.chess_storage:
+        
+            for pieces_obj in self.chess_storage[player]['pieces']:
+    
+                pieces_name = pieces_obj.type
+                pieces_current_pos = pieces_obj.get_current_position()
+                print("Player {} Piece: {} Current Position:{}".format(player, pieces_name, pieces_current_pos))
+        
+    
         return 
     
     
