@@ -14,7 +14,6 @@ class PQueen(Pieces):
     def __init__(self):
         super().__init__()
         
-        print("[PQueen] Constructor")
         self.type = "queen"
                
         return 
@@ -23,4 +22,6 @@ class PQueen(Pieces):
     def _pieces_type(self):
         return "queen"
     
-    
+    def set_pieces_icon(self, player_id):
+        self.icon = '♕' if player_id == 1 else '♛'
+        return     

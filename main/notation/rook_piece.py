@@ -14,7 +14,6 @@ class PRook(Pieces):
     def __init__(self):
         super().__init__()
         
-        print("[PRook] Constructor")
         self.type = "rook"
               
         return 
@@ -23,4 +22,7 @@ class PRook(Pieces):
     def _pieces_type(self):
         return "rook"
     
+    def set_pieces_icon(self, player_id):
+        self.icon = '♖' if player_id == 1 else '♜'
+        return 
     

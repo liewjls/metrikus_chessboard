@@ -14,7 +14,6 @@ class PPawn(Pieces):
     def __init__(self):
         super().__init__()
         
-        print("[PPawn] Constructor")
         self.type = "pawn"
          
         return 
@@ -24,3 +23,7 @@ class PPawn(Pieces):
         return "pawn"
     
     
+    def set_pieces_icon(self, player_id):
+        self.icon = '♙' if player_id == 1 else '♟'
+        return
+        

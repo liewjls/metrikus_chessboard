@@ -14,7 +14,6 @@ class PKing(Pieces):
     def __init__(self):
         super().__init__()
         
-        print("[PKing] Constructor")
         self.type = "king"
         
         return 
@@ -23,4 +22,6 @@ class PKing(Pieces):
     def _pieces_type(self):
         return "king"
     
-    
+    def set_pieces_icon(self, player_id):
+        self.icon = '♔' if player_id == 1 else '♚'
+        return 

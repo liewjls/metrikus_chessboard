@@ -14,7 +14,6 @@ class PKnight(Pieces):
     def __init__(self):
         super().__init__()
         
-        print("[PKnight] Constructor")
         self.type = "knight"
                 
         return 
@@ -23,4 +22,7 @@ class PKnight(Pieces):
     def _pieces_type(self):
         return "knight"
     
-    
+    def set_pieces_icon(self, player_id):
+        self.icon = '♘' if player_id == 1 else '♞'
+        return 
+        
