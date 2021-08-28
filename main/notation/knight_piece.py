@@ -3,7 +3,7 @@ Created on 27 Aug 2021
 
 @author: jenny
 '''
-from main.notation.pieces import Pieces
+from .pieces import Pieces
 
 class PKnight(Pieces):
     '''

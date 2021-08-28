@@ -3,8 +3,8 @@ Created on 27 Aug 2021
 
 @author: jenny
 '''
+from notation.pieces import get_pieces_type
 
-from main.notation.pieces import get_pieces_type
 
 class ChessBoard(object):
     '''
@@ -60,10 +60,7 @@ class ChessBoard(object):
         self.chess_storage['current_mapping'] = [[None] * n for i in range(n)]
         self.chess_storage['pieces'] = {}        
         
-        print("[ChessBoard] Setting up Player 1 pieces default position:")
         self._setup_chess_pieces(self.player_id_0)
-
-        print("[ChessBoard] Setting up Player 2 pieces default position:")
         self._setup_chess_pieces(self.player_id_1)
         
         return 
@@ -129,10 +126,10 @@ class ChessBoard(object):
         
         player_pieces = self.chess_storage['pieces']
         current_map = self.chess_storage['current_mapping']
-        
-        map_str = ""
+        count = 1
+        map_str = " | a | b | c | d | e | f | g | h |\n"
         for i in current_map:
-            
+            map_str +="{}".format(count)
             for item in i:
                 if item:
                     #Get the pieces icon 
@@ -142,17 +139,59 @@ class ChessBoard(object):
                         for icon_list in myItem:
                             if icon_list[0] == item:
                                 icon = icon_list[1].get_pieces_icon()
-                                map_str += "|{}".format(icon) 
+                                map_str += "| {} ".format(icon) 
                                 break 
                 else:
-                    map_str += "| "   
+                    map_str += "|   "   
                 
             map_str += "|\n"
+            count +=1
             
         print("Current Position:\n\n{}".format(map_str))
         print("================================")
 
         return 
+    
+    def update_pieces_notation(self, pieces_type, start_square, end_square):
+        
+        #TODO: Need to validate the string must only 2 digit.
+        start_y = int(ord(start_square[0]) - 97)
+        start_x = int(start_square[1]) - 1 
+        
+        end_y = int(ord(end_square[0]) - 97)
+        end_x = int(end_square[1]) -1 
+        
+        
+        #Get the current mapping of the pieces 
+        current_map = self.chess_storage['current_mapping']
+        
+        my_pieces_name = current_map[start_x][start_y]
+        print("-> moving {}".format(my_pieces_name))
+        current_map[start_x][start_y] = None 
+        
+        current_map[end_x][end_y] = my_pieces_name
+        
+        player_pieces = self.chess_storage['pieces']
+        found = False
+        
+        for player_id in player_pieces:
+            
+            myPieces = player_pieces[player_id]
+            
+            for pieces_obj in myPieces:
+                if pieces_obj[0] == my_pieces_name:
+                    print("-> Found Pieces:{}".format(my_pieces_name))
+                    pieces_obj[1].set_current_location(end_x, end_y)
+                    found = True
+                    break
+            
+            if found:
+                print("-> Updated no need to update")
+                break
+                
+        
+        
+        return
 
       
         
