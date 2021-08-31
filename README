@@ -30,5 +30,36 @@ p. Print current board
 e. Exit
 ```
 
+To move Piece, you will need to enter the name of the pieces with starting position and end position.eg:
+```
+Enter option:m
+Enter piece notation: pawn
+Enter start-square: c7
+Enter end-square: c5
+-> Validation: piece:pawn_2_0
+-> current_pieces_name:None
+-> Attempting to moving pawn_2_0
+-> Current Position:
+
+ | a | b | c | d | e | f | g | h |
+1| ♜ | ♞ | ♝ | ♛ | ♚ | ♝ | ♞ | ♜ |
+2| ♟ | ♟ | ♟ | ♟ | ♟ | ♟ | ♟ | ♟ |
+3|   |   |   |   |   |   |   |   |
+4|   |   |   |   |   |   |   |   |
+5|   |   | ♙ |   |   |   |   |   |
+6|   |   |   |   |   |   |   |   |
+7| ♙ | ♙ |   | ♙ | ♙ | ♙ | ♙ | ♙ |
+8| ♖ | ♘ | ♗ | ♕ | ♔ | ♗ | ♘ | ♖ |
+
+================================
+m. Move pieces
+p. Print current board
+e. Exit
+Enter option:
+
+```
+
+
+To exit the application, type "e" to exit. 
 
 

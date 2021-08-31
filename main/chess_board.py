@@ -232,7 +232,6 @@ class ChessBoard(object):
             for pieces_obj in player_pieces[player_id]:
                 
                 if pieces_obj[0] == pieces_name:
-                    print("-> To be delete - Found Pieces:{}".format(pieces_name))
                     
                     current_pieces_name = self.chess_storage['current_mapping'][new_x][new_y] 
                     print("-> current_pieces_name:{}".format(current_pieces_name))
