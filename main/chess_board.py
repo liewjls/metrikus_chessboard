@@ -21,6 +21,8 @@ class ChessBoard(object):
         self.player_id_0 = 0
         self.player_id_1 = 1
         
+        self.current_player = 0
+        
         self.chess_storage = {}
         self.pieces_notation = [
             {
@@ -134,9 +136,8 @@ class ChessBoard(object):
                 if item:
                     #Get the pieces icon 
                     for pieces_obj in player_pieces:
-                        myItem = player_pieces[pieces_obj]
-                        
-                        for icon_list in myItem:
+                       
+                        for icon_list in player_pieces[pieces_obj]:
                             if icon_list[0] == item:
                                 icon = icon_list[1].get_pieces_icon()
                                 map_str += "| {} ".format(icon) 
@@ -147,53 +148,151 @@ class ChessBoard(object):
             map_str += "|\n"
             count +=1
             
-        print("Current Position:\n\n{}".format(map_str))
+        print("-> Current Position:\n\n{}".format(map_str))
         print("================================")
 
         return 
     
     def update_pieces_notation(self, pieces_type, start_square, end_square):
         
-        #TODO: Need to validate the string must only 2 digit.
-        start_y = int(ord(start_square[0]) - 97)
-        start_x = int(start_square[1]) - 1 
+        found = False 
         
-        end_y = int(ord(end_square[0]) - 97)
-        end_x = int(end_square[1]) -1 
+        try:
+            #TODO: Need to validate the string must only 2 digit.
+            start_y = int(ord(start_square[0]) - 97)
+            start_x = int(start_square[1]) - 1 
+            
+            end_y = int(ord(end_square[0]) - 97)
+            end_x = int(end_square[1]) -1 
+            
+            
+            #Get the current mapping of the pieces 
+            current_map = self.chess_storage['current_mapping']
+            
+            my_pieces_name = current_map[start_x][start_y]
+            
+            if my_pieces_name:
+                #Check the player id:
+                current_pieces_info_list = my_pieces_name.split('_')
+                current_pieces_name = current_pieces_info_list[0]
+                player_id = int(current_pieces_info_list[-1])            
+                if player_id != self.current_player:
+                    print("-> It is player {} turn. Not allow Player {}.".format(self.current_player, 
+                                                                              player_id))
+                    return False            
+            
+            is_taken = self.isTaken(end_x, end_y, my_pieces_name)
+            
+            if my_pieces_name and self.validateMove(end_x, end_y, start_x, start_y, 
+                                                    my_pieces_name, is_taken):
+
+                if current_pieces_name != pieces_type:
+                    print("->Invalid option. current pieces:{} requested pieces:{}".format(current_pieces_name, 
+                                                                                         pieces_type))
+                    return False 
+                
+
+                print("-> Attempting to moving {}".format(my_pieces_name))
+                
+                current_map[start_x][start_y] = None 
+                current_map[end_x][end_y] = my_pieces_name
+                
+                player_pieces = self.chess_storage['pieces']
+                
+                for player_id in player_pieces:    
+                    
+                    for pieces_obj in player_pieces[player_id]:
+                        
+                        if pieces_obj[0] == my_pieces_name:
+                            
+                            pieces_obj[1].set_current_location(end_x, end_y)
+                            found = True
+                            break
+                    
+                    if found:
+                        # The move seems valid. Update next player turn status
+                        self.current_player = 1 if self.current_player == 0 else 0
+                        break
+            else:
+                print("-> Error: Invalid pieces..")
         
+        except Exception as e:
+            print("-> Exception caught. {}".format(e))
         
-        #Get the current mapping of the pieces 
-        current_map = self.chess_storage['current_mapping']
+        return found
+    
+    def validateMove(self, new_x, new_y, current_x, current_y, pieces_name, isTaken):
         
-        my_pieces_name = current_map[start_x][start_y]
-        print("-> moving {}".format(my_pieces_name))
-        current_map[start_x][start_y] = None 
+        isAllow = False 
         
-        current_map[end_x][end_y] = my_pieces_name
-        
+        #Checking and validate the move 
         player_pieces = self.chess_storage['pieces']
-        found = False
-        
+        print("-> Validation: piece:{}".format(pieces_name))
         for player_id in player_pieces:
             
-            myPieces = player_pieces[player_id]
-            
-            for pieces_obj in myPieces:
-                if pieces_obj[0] == my_pieces_name:
-                    print("-> Found Pieces:{}".format(my_pieces_name))
-                    pieces_obj[1].set_current_location(end_x, end_y)
-                    found = True
-                    break
-            
-            if found:
-                print("-> Updated no need to update")
-                break
+            for pieces_obj in player_pieces[player_id]:
                 
-        
-        
-        return
+                if pieces_obj[0] == pieces_name:
+                    print("-> Validating:{} isTaken:{}".format(pieces_name, isTaken))
+                    isAllow = pieces_obj[1].validate_movement(current_x, current_y, new_x, new_y, isTaken)
+                    
+        return isAllow
 
-      
+    def isTaken(self, current_x, current_y, new_pieces):
+        
+        isTaken = False 
+        
+        try:
+            pieces_name = self.chess_storage['current_mapping'][current_x][current_y]
+            
+            if pieces_name:
+                #TODO: possible to check whether it can be taken? 
+                current_pieces_list = pieces_name.split('_')
+                current_pieces_player_id = int(current_pieces_list[-1])
+            
+                if current_pieces_player_id == self.current_player:
+                    print("-> Error: Not allow take own pieces: ")
+                    isTaken = False 
+                    pieces_name = None
+                    raise Exception("Invalid Option")
+                
+                print("-> Current pieces:{} over taking {}".format(pieces_name, new_pieces))
+            
+            if pieces_name:
+                print("taking out the pieces {}".format(pieces_name))
+                player_pieces = self.chess_storage['pieces']
+                
+                for player_id in player_pieces:
+                    
+                    for pieces_obj in player_pieces[player_id]:
+                        
+                        if pieces_obj[0] == pieces_name:
+                            print("-> To be delete - Found Pieces:{}".format(pieces_name))
+                            player_pieces[player_id].remove(pieces_obj)
+                            self.chess_storage['current_mapping'][current_x][current_y] = None 
+                            
+                            isTaken = True
+                            
+                            break
+                    
+            
+        except Exception as e:
+            print("Error:{}".format(e))
+            raise e 
+            
+        return isTaken
+    
+    def validate_pieces_notation(self, name):
+        
+        isValid = False 
+        for item in self.pieces_notation:
+            if name in item.values():
+                isValid = True 
+                break
+            else:
+                isValid = False
+        
+        return isValid
         
         
     

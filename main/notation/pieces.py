@@ -67,5 +67,7 @@ class Pieces(object):
             self.name = self.type
         return
     
+    def validate_movement(self,current_x, current_y, new_x, new_y, isTaken=False):
+        return False
     
     
