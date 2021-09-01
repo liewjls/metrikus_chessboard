@@ -19,10 +19,10 @@ class ChessBoard(object):
         '''
         
         #Player ID
-        self.player_id_0 = 0
-        self.player_id_1 = 1
+        self.player_id_0 = DEFAULT_PLAYER_ID
+        self.player_id_1 = DEFAULT_PLAYER_ID + 1
         
-        self.current_player = 0
+        self.current_player = DEFAULT_PLAYER_ID
         
         self.chess_storage = {}
         self.pieces_notation = [
@@ -210,7 +210,8 @@ class ChessBoard(object):
                     
                     if found:
                         # The move seems valid. Update next player turn status
-                        self.current_player = 1 if self.current_player == 0 else 0
+                        self.current_player = self.player_id_1 if self.current_player == self.player_id_0 \
+                                                else self.player_id_0
                         break
             else:
                 print("-> Error: Invalid pieces..")
