@@ -62,4 +62,10 @@ Enter option:
 
 To exit the application, type "e" to exit. 
 
+The games supported:
+- Taken opposite pieces
+- Prevent player take turns continously. Each player taking each turn
+- Making sure the pieces are allow the move based on their role. 
+- Prevent current peices taken own pieces. 
 
+ 
